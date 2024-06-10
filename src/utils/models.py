@@ -14,6 +14,5 @@ class VehiclePing(BaseModel):
     location: Location
     distance: float
     load: float
-    ecm: dict
     vehicle_type: int
     battery: Optional[float]
