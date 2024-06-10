@@ -21,6 +21,7 @@ with engine.begin() as conn:
 
 try:
     with Session(engine) as session:
+        print("Reading from KAFKA...")
         for messsage in consumer:
             obj = VehiclePing.parse_obj(json.loads(messsage.value))
             print(obj)

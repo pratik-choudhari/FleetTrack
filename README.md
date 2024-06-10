@@ -19,3 +19,8 @@
 
 - geofencing
 - engine control module
+
+## Kafka commands
+
+- kafka-console-producer.sh --broker-list localhost:9092 --topic trip-ping
+- kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic trip-ping --from-beginning
