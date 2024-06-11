@@ -19,16 +19,19 @@ with engine.begin() as conn:
     Base.metadata.create_all(bind=conn)
 
 
+count = 0
 try:
     with Session(engine) as session:
         print("Reading from KAFKA...")
         for messsage in consumer:
             obj = VehiclePing.parse_obj(json.loads(messsage.value))
             print(obj)
-            obj = TripPings(vehicle_id=1, timestamp=datetime.datetime.now(), lat=obj.location.lat, long=obj.location.long,
+            obj = TripPings(vehicle_id=obj.vehicle_id, lat=obj.location.lat, long=obj.location.long,
+                            timestamp=datetime.datetime.now() + datetime.timedelta(minutes=count),
                             fuel_pct=obj.fuel, speed=obj.speed, battery_pct=obj.battery)
             session.add(obj)
             session.commit()
+            count += 1
 except KeyboardInterrupt:
     close_all_sessions()
     engine.dispose()

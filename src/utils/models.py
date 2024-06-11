@@ -9,6 +9,7 @@ class Location(BaseModel):
 
 
 class VehiclePing(BaseModel):
+    vehicle_id: int
     fuel: Optional[float]
     speed: float
     location: Location
