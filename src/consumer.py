@@ -6,7 +6,7 @@ from kafka import KafkaConsumer
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.session import close_all_sessions
 
-from src.utils.database import KAFKA_SERVERS, engine, Base, TripPings
+from src.utils.database import KAFKA_SERVERS, engine, TripPings
 from src.utils.models import VehiclePing
 
 consumer = KafkaConsumer("trip-ping", bootstrap_servers=KAFKA_SERVERS, auto_offset_reset='earliest',
@@ -14,9 +14,6 @@ consumer = KafkaConsumer("trip-ping", bootstrap_servers=KAFKA_SERVERS, auto_offs
 logging.basicConfig(filename="logs/consumer.log", level=logging.INFO,
                     format='(%(asctime)s) %(name)s [%(levelname)s] %(message)s')
 logger = logging.getLogger(__name__)
-
-with engine.begin() as conn:
-    Base.metadata.create_all(bind=conn)
 
 
 count = 0
