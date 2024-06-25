@@ -1,5 +1,18 @@
 # FleetTrack
 
+## Dashboard
+
+### Tab 1
+![](./assets/dashboard_fleet_overview_1.png)
+
+![](./assets/dashboard_fleet_overview_2.png)
+
+### Tab 2
+![](./assets/dashboard_vehicle_detail_1.png)
+
+![](./assets/dashboard_vehicle_detail_2.png)
+
+
 ## Architecture
 
 ![](./assets/FleetTrack.png)
@@ -13,14 +26,20 @@
 
 ## Setup
 
-- Kafka and zookeeper are on docker - https://medium.com/@amberkakkar01/getting-started-with-apache-kafka-on-docker-a-step-by-step-guide-48e71e241cf2
+- Start Kafka, Zookeeper, PostgreSQL and Metabase on Docker
+  - `cd src`
+  - `docker-compose up -d --build`
+- Setup Python environment for the project and install dependencies from requirements.txt
+- Create .env in root of project, use .env.example as a reference
+- Initialize alembic to handle db migrations
+  - `alembic init alembic`
+  - `alembic revision -m "<message>"`
+  - `alembic migrate head`
 
-## Features
+## Run the project
 
-- geofencing
-- engine control module
-
-## Kafka commands
-
-- kafka-console-producer.sh --broker-list localhost:9092 --topic trip-ping
-- kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic trip-ping --from-beginning
+- Run scripts in the following order:
+  - producer.py
+  - consumer.py
+  - run.py
+- Open 
