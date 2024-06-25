@@ -8,7 +8,7 @@ import requests
 from sqlalchemy import delete, update
 from sqlalchemy.orm import Session, close_all_sessions
 
-from src.utils.database import *
+from src.utils.database import engine, Vehicle, TripPings, VehicleType, VehicleStatus
 
 NUM_VEHICLES = 18
 
