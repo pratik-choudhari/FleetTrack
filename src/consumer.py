@@ -1,11 +1,10 @@
+import datetime
 import json
 import logging
-import datetime
 
-import psycopg2
+from kafka import KafkaConsumer
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.session import close_all_sessions
-from kafka import KafkaConsumer
 
 from src.utils.database import KAFKA_SERVERS, engine, Base, TripPings
 from src.utils.models import VehiclePing

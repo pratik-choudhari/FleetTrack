@@ -10,11 +10,11 @@ if not load_dotenv():
 
 KAFKA_SERVERS = [f"{os.getenv('KAFKA_HOST')}:{os.getenv('KAFKA_PORT')}"]
 
-url = "postgresql+psycopg2://{}:{}@{}:{}/{}"
-url = url.format(os.getenv('POSTGRES_USER'), os.getenv('POSTGRES_PASSWORD'), os.getenv('POSTGRES_HOST'),
-                 os.getenv('POSTGRES_PORT'), os.getenv('POSTGRES_DB_NAME'))
+CXN_URL = "postgresql+psycopg2://{}:{}@{}:{}/{}"
+CXN_URL = CXN_URL.format(os.getenv('POSTGRES_USER'), os.getenv('POSTGRES_PASSWORD'), os.getenv('POSTGRES_HOST'),
+                         os.getenv('POSTGRES_PORT'), os.getenv('POSTGRES_DB_NAME'))
 
-engine = create_engine(url)
+engine = create_engine(CXN_URL)
 
 
 class Base(DeclarativeBase):
