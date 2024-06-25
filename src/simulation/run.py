@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session, close_all_sessions
 
 from src.utils.database import *
 
-NUM_VEHICLES = 5
+NUM_VEHICLES = 18
 
 
 def create_vehicles(n: int):
@@ -23,8 +23,13 @@ def create_vehicles(n: int):
         session.commit()
 
         for id_ in range(n):
-            tmp = Vehicle(transmitter_id=id_, type=VehicleType.CONTAINER, status=VehicleStatus.IDLE,
-                          distance=random.randint(1000, 5000), created_at=datetime.now())
+            type_ = random.choice(list(VehicleType))
+            if type_ in (VehicleType.CONTAINER, VehicleType.TRAILER):
+                tmp = Vehicle(transmitter_id=id_, type=type_, status=VehicleStatus.IDLE,
+                              distance=0, created_at=datetime.now())
+            else:
+                tmp = Vehicle(transmitter_id=id_, type=type_, status=VehicleStatus.IDLE,
+                              distance=random.randint(1000, 5000), created_at=datetime.now())
             session.add(tmp)
             session.commit()
 
@@ -54,6 +59,7 @@ class TripProcess(Process):
         self.speed_limits = range(20, 80) if vehicle.type == VehicleType.TRUCK else range(40, 120)
         self.num_steps = num_steps
         self.load = random.randrange(200, 800) if vehicle.type == VehicleType.TRUCK else 0
+        self.is_healthy = True if vehicle.vehicle_id % 3 != 0 else False
 
     def run(self):
         print(f"[START] Trip for {self.vehicle.vehicle_id}")
@@ -81,7 +87,8 @@ class TripProcess(Process):
                                 "load": self.load,
                                 "vehicle_type": self.vehicle.type.value,
                                 "battery": self.battery_pct,
-                                "location": {"lat": 52.93, "long": -73.54913610 - random.randrange(10)}
+                                "location": {"lat": 43.70011 - random.choice([0.01, 0.015, 0.02]),
+                                             "long": -79.4163 - (step / 100) - random.choice([1, 2, 3, 4])}
                                 })
             print(f"[INPROGRESS] Step {step}/{self.num_steps} for {self.vehicle.vehicle_id}")
             time.sleep(5)
@@ -99,7 +106,7 @@ if __name__ == '__main__':
 
     processes = []
     for obj in vehicles:
-        p = TripProcess(obj, 15)
+        p = TripProcess(obj, 100)
         p.start()
         processes.append(p)
 

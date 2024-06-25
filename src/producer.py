@@ -39,7 +39,7 @@ def home():
 @app.post("/ping")
 def ping(data: VehiclePing):
     try:
-        metadata = producer.send("trip-ping", data.json())
+        producer.send("trip-ping", data.json())
         return {"status": "OK", "detail": ""}
     except errors.KafkaTimeoutError:
         logger.error(f"Kafka producer timed out: {data.json()}")

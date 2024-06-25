@@ -2,6 +2,7 @@ import json
 import logging
 import datetime
 
+import psycopg2
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.session import close_all_sessions
 from kafka import KafkaConsumer
@@ -22,10 +23,11 @@ with engine.begin() as conn:
 count = 0
 try:
     with Session(engine) as session:
-        print("Reading from KAFKA...")
+        print("[INFO] Open DB session")
+        print("[INFO] Reading messages from kafka")
         for messsage in consumer:
             obj = VehiclePing.parse_obj(json.loads(messsage.value))
-            print(obj)
+            print(f"[INFO] Message received: {obj}")
             obj = TripPings(vehicle_id=obj.vehicle_id, lat=obj.location.lat, long=obj.location.long,
                             timestamp=datetime.datetime.now() + datetime.timedelta(minutes=count),
                             fuel_pct=obj.fuel, speed=obj.speed, battery_pct=obj.battery)
@@ -33,6 +35,12 @@ try:
             session.commit()
             count += 1
 except KeyboardInterrupt:
+    pass
+except Exception as e:
+    logger.exception(e)
+    print(e)
+finally:
     close_all_sessions()
     engine.dispose()
     consumer.close()
+    print("[INFO] Closed all resources")
