@@ -7,9 +7,9 @@
 ## Tools used
 
 - FastAPI (Python)
-- PostgreSQL
+- PostgreSQL w/ Alembic
 - Kafka
-- Metabase/Streamlit/Tableau
+- Metabase
 
 ## Setup
 
