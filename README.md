@@ -1,6 +1,8 @@
 # FleetTrack
 
-FleetTrack is an application focused on collection, storage and analytics of realtime data received from vehicles.
+FleetTrack is an application focused on collection, storage and analytics of realtime data received from a fleet of vehicles. 
+This application is intended to be used in car, truck and van rental companies. 
+In real-world, there will be an embedded device in vehicles which will be connected to the internet and able to make REST API calls to the server.
 
 There are four main components of this project:
 1. Producer - A web server built in FastAPI which receives data and pushes them into Kafka topics.
@@ -11,24 +13,21 @@ There are four main components of this project:
 ## Dashboard
 
 ### Tab 1
-![](./assets/dashboard_fleet_overview_1.png)
-
-![](./assets/dashboard_fleet_overview_2.png)
+![](./assets/dashboard_tab_1.png)
 
 ### Tab 2
-![](./assets/dashboard_vehicle_detail_1.png)
-
-![](./assets/dashboard_vehicle_detail_2.png)
-
+![](./assets/dashboard_tab_2.png)
 
 ## Architecture
 
-![](./assets/FleetTrack.png)
+ <div style="text-align:center">
+<img src="./assets/FleetTrack.png"  alt="Architecture"/>
+</div>
 
 ## Tools used
 
 - FastAPI (Python)
-- PostgreSQL w/ Alembic
+- PostgreSQL w/ SQLAlchemy and Alembic
 - Kafka
 - Metabase
 
@@ -50,4 +49,4 @@ There are four main components of this project:
   - producer.py
   - consumer.py
   - run.py
-- Open 
+- Open metabase on [http://localhost:3000](http://localhost:3000), create your widgets and dashboards!
